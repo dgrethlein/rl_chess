@@ -5,3 +5,6 @@
 
 
 from .misc import is_idx_in_range
+
+from .misc import PieceType
+from .misc import PlayerColor

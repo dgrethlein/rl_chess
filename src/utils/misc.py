@@ -9,36 +9,39 @@ import traceback
 from enum import Enum
 
 
-class PlayerColor(Enum):
-    """Summary
-
-    Attributes:
-        black (int): Description
-        white (int): Description
-    """
-
-    white = 1
-    black = 2
-
-
 class PieceType(Enum):
     """Summary
 
     Attributes:
-        bishop (int): Description
-        king (int): Description
-        knight (int): Description
-        pawn (int): Description
-        queen (int): Description
-        rook (int): Description
+        BISHOP (int): Description
+        KING (int): Description
+        KNIGHT (int): Description
+        PAWN (int): Description
+        QUEEN (int): Description
+        ROOK (int): Description
     """
 
-    pawn = 1
-    rook = 2
-    knight = 3
-    bishop = 4
-    queen = 5
-    king = 6
+    PAWN = 1
+    ROOK = 2
+    KNIGHT = 3
+    BISHOP = 4
+    QUEEN = 5
+    KING = 6
+
+
+class PlayerColor(Enum):
+    """Summary
+
+    Attributes:
+        BLACK (int): Description
+        WHITE (int): Description
+    """
+
+    WHITE = 1
+    BLACK = 2
+
+
+
 
 
 
@@ -51,12 +54,13 @@ def is_idx_in_range(int_val : int,
         num_idx (int, optional): Description
 
     Returns:
-        TYPE: Description
+        bool: Description
     """
     in_range = False
 
     try:
-        in_range = (0 <= int(int_val) < num_idx)
+        in_range = (isinstance(int_val, int)
+                    and 0 <= int_val < num_idx)
 
     except (AttributeError, TypeError, ValueError):
         pass
