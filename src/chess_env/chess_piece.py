@@ -244,8 +244,10 @@ class ChessPiece(ABC):
             self.col_idx = dest_col_idx
             self.row_idx = dest_row_idx
 
-            if self.col_idx == dest_col_idx and self.row_idx == dest_row_idx:
-
+            if (not self.on_board
+                and self.col_idx == dest_col_idx
+                and self.row_idx == dest_row_idx):
+                self.on_board = True
 
             if not self.has_moved:
                 self.has_moved = True
@@ -253,6 +255,94 @@ class ChessPiece(ABC):
         except (AttributeError, TypeError, ValueError):
             print("\n// [ERROR]  Couldn't move ChessPiece!\n")
             traceback.print_exc()
+
+
+    #==========================================================================
+    #       PIECE TYPE IDENTIFICATION METHOD(s)
+    #==========================================================================
+    def is_a_pawn(self) -> bool:
+        """Summary
+
+        Returns:
+            bool: Description
+        """
+        is_pawn = False
+
+        try:
+            is_pawn = (self.piece_type is PieceType.PAWN)
+
+        except (AttributeError, TypeError, ValueError):
+            pass
+
+        return is_pawn
+
+
+    def is_a_rook(self) -> bool:
+        """Summary
+
+        Returns:
+            bool: Description
+        """
+        is_rook = False
+
+        try:
+            is_rook = (self.piece_type is PieceType.ROOK)
+
+        except (AttributeError, TypeError, ValueError):
+            pass
+
+        return is_rook
+
+
+    def is_a_bishop(self) -> bool:
+        """Summary
+
+        Returns:
+            bool: Description
+        """
+        is_bishop = False
+
+        try:
+            is_bishop = (self.piece_type is PieceType.BISHOP)
+
+        except (AttributeError, TypeError, ValueError):
+            pass
+
+        return is_bishop
+
+
+    def is_a_queen(self) -> bool:
+        """Summary
+
+        Returns:
+            bool: Description
+        """
+        is_queen = False
+
+        try:
+            is_queen = (self.piece_type is PieceType.QUEEN)
+
+        except (AttributeError, TypeError, ValueError):
+            pass
+
+        return is_queen
+
+
+    def is_a_king(self) -> bool:
+        """Summary
+
+        Returns:
+            bool: Description
+        """
+        is_king = False
+
+        try:
+            is_king = (self.piece_type == PieceType.KING)
+
+        except (AttributeError, TypeError, ValueError):
+            pass
+
+        return is_king
 
 
 #==============================================================================
