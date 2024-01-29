@@ -8,8 +8,7 @@ import traceback
 
 from abc import ABC, abstractmethod
 
-from typing import Dict, List, Tuple
-
+from typing import Dict
 
 from ..utils import is_idx_in_range
 
@@ -269,7 +268,7 @@ class ChessPiece(ABC):
         is_pawn = False
 
         try:
-            is_pawn = (self.piece_type is PieceType.PAWN)
+            is_pawn = self.piece_type is PieceType.PAWN
 
         except (AttributeError, TypeError, ValueError):
             pass
@@ -286,7 +285,7 @@ class ChessPiece(ABC):
         is_rook = False
 
         try:
-            is_rook = (self.piece_type is PieceType.ROOK)
+            is_rook = self.piece_type is PieceType.ROOK
 
         except (AttributeError, TypeError, ValueError):
             pass
@@ -303,7 +302,7 @@ class ChessPiece(ABC):
         is_bishop = False
 
         try:
-            is_bishop = (self.piece_type is PieceType.BISHOP)
+            is_bishop = self.piece_type is PieceType.BISHOP
 
         except (AttributeError, TypeError, ValueError):
             pass
@@ -320,7 +319,7 @@ class ChessPiece(ABC):
         is_queen = False
 
         try:
-            is_queen = (self.piece_type is PieceType.QUEEN)
+            is_queen = self.piece_type is PieceType.QUEEN
 
         except (AttributeError, TypeError, ValueError):
             pass
@@ -337,7 +336,7 @@ class ChessPiece(ABC):
         is_king = False
 
         try:
-            is_king = (self.piece_type == PieceType.KING)
+            is_king = self.piece_type is PieceType.KING
 
         except (AttributeError, TypeError, ValueError):
             pass

@@ -4,13 +4,7 @@
 """
 
 
-import traceback
-
 from enum import Enum
-from typing import List, Union
-
-import numpy as np
-
 
 
 #==============================================================================
@@ -21,17 +15,11 @@ class PieceType(Enum):
 
     Attributes:
         BISHOP (int): Description
-        bishop (int): Description
         KING (int): Description
-        king (int): Description
         KNIGHT (int): Description
-        knight (int): Description
         PAWN (int): Description
-        pawn (int): Description
         QUEEN (int): Description
-        queen (int): Description
         ROOK (int): Description
-        rook (int): Description
     """
     PAWN = 1
     ROOK = 2
@@ -39,13 +27,6 @@ class PieceType(Enum):
     BISHOP = 4
     QUEEN = 5
     KING = 6
-
-    pawn = 1
-    rook = 2
-    knight = 3
-    bishop = 4
-    queen = 5
-    king = 6
 
 
 #==============================================================================
@@ -56,15 +37,10 @@ class PlayerColor(Enum):
 
     Attributes:
         BLACK (int): Description
-        black (int): Description
         WHITE (int): Description
-        white (int): Description
     """
     WHITE = 1
     BLACK = 2
-
-    white = 1
-    black = 2
 
 
 #==============================================================================
