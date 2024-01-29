@@ -4,11 +4,9 @@
 """
 
 
-import traceback
-
 from typing import Dict
 
-from .chess_piece import ChessPiece 
+from .chess_piece import ChessPiece
 
 from ..utils import PieceType
 from ..utils import PlayerColor
