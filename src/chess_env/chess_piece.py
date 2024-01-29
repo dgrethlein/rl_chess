@@ -16,7 +16,9 @@ from ..utils import PieceType
 from ..utils import PlayerColor
 
 
-
+#==============================================================================
+#       CHESS PIECE ABSTRACT BASE CLASS
+#==============================================================================
 class ChessPiece(ABC):
     """Summary
 
@@ -74,10 +76,10 @@ class ChessPiece(ABC):
             piece_dict (Dict): Description
         """
 
+
     #==========================================================================
     #       CLASS SERIALIZATION METHOD(s)
     #==========================================================================
-    @abstractmethod
     def to_dict(self) -> Dict:
         """Summary
 
@@ -252,7 +254,7 @@ class ChessPiece(ABC):
                 self.has_moved = True
 
         except (AttributeError, TypeError, ValueError):
-            print("\n// [ERROR]  Couldn't move ChessPiece!\n")
+            print(f"\n// [ERROR]  Couldn't move {self.__class__.__name__}!\n")
             traceback.print_exc()
 
 
