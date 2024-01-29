@@ -20,7 +20,6 @@ class PieceType(Enum):
         QUEEN (int): Description
         ROOK (int): Description
     """
-
     PAWN = 1
     ROOK = 2
     KNIGHT = 3
@@ -36,7 +35,6 @@ class PlayerColor(Enum):
         BLACK (int): Description
         WHITE (int): Description
     """
-
     WHITE = 1
     BLACK = 2
 
