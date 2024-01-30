@@ -5,3 +5,4 @@ numpy
 pandas
 shapely
 pylint
+sphinx_rtd_theme
