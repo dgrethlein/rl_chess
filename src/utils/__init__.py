@@ -4,7 +4,9 @@
 """
 
 
-from .misc import is_idx_in_range
-
-from .misc import PieceType
-from .misc import PlayerColor
+#==============================================================================
+#       MISCELLANEOUS CONSTANT(s)
+#==============================================================================
+from .const import BOARD_COLUMNS
+from .const import PLAYER_COLORS
+from .const import PIECE_TYPES
