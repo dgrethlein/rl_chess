@@ -9,11 +9,10 @@ import traceback
 from abc import ABC, abstractmethod
 
 from pathlib import Path
-from typing import Dict
+from typing import List
 
 from .move import Move
 
-from ..utils import BOARD_COLUMNS
 from ..utils import PIECE_TYPES
 from ..utils import PLAYER_COLORS
 
@@ -36,9 +35,9 @@ class Piece(ABC):
     def __init__(self,
                  col_idx      : int = None,
                  row_idx      : int = None,
-                 past_moves   : List[Move] = [],
+                 past_moves   : List[Move] = None,
                  piece_color  : str = "white",
-                 piece_name   : str = "pawn"):
+                 piece_type   : str = "pawn"):
         """Summary
 
         Args:
@@ -179,7 +178,8 @@ class Piece(ABC):
     #==========================================================================
     #       PIECE REPRESENTATION METHOD(s)
     #==========================================================================
-    def to_short_str(self) -> str:
+    def to_short_str(self,
+                     include_color : bool = False) -> str:
         """Summary
 
         Returns:
@@ -188,16 +188,45 @@ class Piece(ABC):
         short_str = None
 
         try:
-            short_str = piece_type[0].upper()
+            short_str = self.piece_type[0].upper()
 
             if include_color:
-                short_str = piece_color[0].upper() + short_str
+                short_str = self.piece_color[0].upper() + short_str
 
         except (AttributeError, IndexError, TypeError, ValueError):
             print("\n// [ERROR]  Couldn't represent the Chess Piece as a short str!\n")
             traceback.print_exc()
 
         return short_str
+
+
+    #==========================================================================
+    #       PIECE REPRESENTATION METHOD(s)
+    #==========================================================================
+    def get_piece_texture_path(self,
+                               assets_dir : Path = None,
+                               image_size : int = 128) -> Path:
+        """Summary
+
+        Returns:
+            Path: Description
+        """
+        text_path = None
+
+        try:
+            if not image_size in [80, 128]:
+                image_size = 128
+
+            if not (isinstance(assets_dir, Path) and assets_dir.is_dir()):
+                assets_dir = Path(f"./assets/images/imgs-{image_size}px/")
+
+            text_path = Path(assets_dir / f"{self.piece_color}_{self.piece_type}")
+
+        except (AttributeError, TypeError, ValueError):
+            print("\n// [ERROR]  Coulnd't get Piece texture file path!\n")
+            traceback.print_exc()
+
+        return text_path
 
 
 #==============================================================================
