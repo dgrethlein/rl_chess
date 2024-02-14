@@ -6,6 +6,7 @@ Attributes:
     Sqr (TYPE): Description
 """
 
+
 from typing import TypeVar
 
 from .piece import Piece

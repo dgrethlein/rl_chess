@@ -63,7 +63,7 @@ class Piece(ABC):
 
 
     #==========================================================================
-    #       PROPERTY INTERFACE METHOD(s)
+    #       PRIVATE PROPERTY(S) INTERFACE METHOD(s)
     #==========================================================================
     @property
     def col_idx(self) -> int:
