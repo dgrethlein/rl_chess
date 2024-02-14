@@ -33,19 +33,19 @@ class Piece(ABC):
 
     @abstractmethod
     def __init__(self,
-                 col_idx      : int = None,
-                 row_idx      : int = None,
+                 col_idx      : int,
+                 row_idx      : int,
                  past_moves   : List[Move] = None,
                  piece_color  : str = "white",
                  piece_type   : str = "pawn"):
         """Summary
 
         Args:
-            col_idx (int, optional): Description
-            row_idx (int, optional): Description
+            col_idx (int): Description
+            row_idx (int): Description
             past_moves (List[Move], optional): Description
             piece_color (str, optional): Description
-            piece_name (str, optional): Description
+            piece_type (str, optional): Description
         """
         self.__col_idx = None
         self.__row_idx = None
@@ -184,6 +184,9 @@ class Piece(ABC):
 
         Returns:
             str: Description
+
+        Args:
+            include_color (bool, optional): Description
         """
         short_str = None
 
@@ -210,11 +213,15 @@ class Piece(ABC):
 
         Returns:
             Path: Description
+
+        Args:
+            assets_dir (Path, optional): Description
+            image_size (int, optional): Description
         """
         text_path = None
 
         try:
-            if not image_size in [80, 128]:
+            if image_size not in [80, 128]:
                 image_size = 128
 
             if not (isinstance(assets_dir, Path) and assets_dir.is_dir()):
