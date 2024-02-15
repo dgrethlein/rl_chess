@@ -6,6 +6,10 @@
 
 import traceback
 
+from typing import List
+
+from .move import Move
+
 from .piece import Piece
 from .piece import Pawn
 from .piece import Rook
@@ -32,6 +36,7 @@ class Board:
 
     Attributes:
         board (TYPE): Description
+        current_move_color (str): Description
 
     Deleted Attributes:
         grid (TYPE): Description
@@ -41,15 +46,41 @@ class Board:
         """Summary
         """
         self._create_board()
-        self._add_pieces("black")
-        self._add_pieces("white")
+        self._add_pieces_to_board("black")
+        self._add_pieces_to_board("white")
+        self.current_move_color = "white"
+
+
+    #==========================================================================
+    #       OVERLOAD(S) FOR CLASS'S PYTHON MAGIC METHOD(s)
+    #==========================================================================
+    def __str__(self) -> str:
+        """Summary
+
+        Returns:
+            str: Description
+        """
+        self_str = "\n"
+
+        try:
+            for row_idx in range(NUM_ROWS):
+                for col_idx in range(NUM_COLS):
+                    sqr = self.board[row_idx][col_idx]
+                    self_str += "[ ]" if sqr.is_empty() else str(sqr.occupant)
+                    self_str += " "
+                self_str += "\n"
+
+        except (AttributeError, IndexError, KeyError, TypeError, ValueError):
+            pass
+
+        return self_str
 
 
     #==========================================================================
     #       PRIVATE INITIALIZATION METHOD(s)
     #==========================================================================
-    def _add_pieces(self,
-                    color : str = "white"):
+    def _add_pieces_to_board(self,
+                             color : str = "white"):
         """Summary
 
         Args:
@@ -145,5 +176,110 @@ class Board:
 
 
     #==========================================================================
-    #       SQUARE OCCUPANCY METHOD(s)
+    #       CALCULATE PIECE MOVEMENT METHOD(s)
     #==========================================================================
+    def is_move_available(self,
+                          piece : Piece,
+                          move  : Move) -> bool:
+        """Summary
+
+        Args:
+            piece (Piece): Description
+            move (Move): Description
+
+        Returns:
+            bool: Description
+        """
+        is_valid = False
+
+        try:
+            is_valid = move in piece.available_moves
+
+        except (AttributeError, TypeError, ValueError):
+            pass
+
+        return is_valid
+
+
+    def move_piece_on_board(self,
+                            piece : Piece,
+                            move  : Move):
+        """Summary
+
+        Args:
+            piece (Piece): Description
+            move (Move): Description
+        """
+        try:
+            # Moves the Piece on the Board.
+            piece.past_moves += [move]
+            self.board[move.before.row_idx][move.before.col_idx].occupant = None
+            self.board[move.after.row_idx][move.after.col_idx].occupant = piece
+
+
+        except (AttributeError, IndexError, KeyError, TypeError, ValueError):
+            print("\n// [ERROR]  Couldn't move Piece on Board!\n")
+            traceback.print_exc()
+
+
+    def calculate_available_moves(self,
+                                  piece : Piece) -> List[Move]:
+        """Summary
+
+        Returns:
+            List[Move]: Description
+        """
+
+        def calculate_available_pawn_moves():
+            """Summary
+            """
+
+        def calculate_available_rook_moves():
+            """Summary
+            """
+
+        def calculate_available_knight_moves():
+            """Summary
+            """
+
+        def calculate_available_bishop_moves():
+            """Summary
+            """
+
+        def calculate_available_queen_moves():
+            """Summary
+            """
+
+        def calculate_available_king_moves():
+            """Summary
+            """
+
+        #----------------------------------------------------------------------
+        # Calculate all available moves public method implementation.
+        #----------------------------------------------------------------------
+        all_moves = []
+
+        try:
+            if isinstance(piece, Pawn):
+                calculate_available_pawn_moves()
+
+            elif isinstance(piece, Rook):
+                calculate_available_rook_moves()
+
+            elif isinstance(piece, Knight):
+                calculate_available_knight_moves()
+
+            elif isinstance(piece, Bishop):
+                calculate_available_bishop_moves()
+
+            elif isinstance(piece, Queen):
+                calculate_available_queen_moves()
+
+            elif isinstance(piece, King):
+                calculate_available_king_moves()
+
+        except (AttributeError, IndexError, KeyError, TypeError, ValueError):
+            print("\n// [ERROR]  Couldn't calculate all available Move(s)!\n")
+            traceback.print_exc()
+
+        return all_moves

@@ -34,12 +34,12 @@ class Piece(ABC):
 
     @abstractmethod
     def __init__(self,
-                 col_idx      : int,
-                 row_idx      : int,
-                 past_moves   : List[Move] = None,
-                 piece_color  : str = "white",
-                 piece_type   : str = "pawn",
-                 piece_value  : float = 1.0):
+                 col_idx          : int,
+                 row_idx          : int,
+                 past_moves       : List[Move] = None,
+                 piece_color      : str = "white",
+                 piece_type       : str = "pawn",
+                 piece_value      : float = 1.0):
         """Summary
 
         Args:
@@ -53,6 +53,7 @@ class Piece(ABC):
         self.__col_idx = None
         self.__row_idx = None
 
+        self.__available_moves = []
         self.__past_moves = []
 
         self.__piece_color = "white"
@@ -114,6 +115,28 @@ class Piece(ABC):
         """
         if isinstance(row_idx, int) and 0 <= row_idx < 8:
             self.__row_idx = row_idx
+
+
+    @property
+    def available_moves(self) -> List[Move]:
+        """Summary
+
+        Returns:
+            List[Move]: Description
+        """
+        return self.__available_moves
+
+
+    @available_moves.setter
+    def available_moves(self,
+                        available_moves : List[Move]):
+        """Summary
+
+        Args:
+            available_moves (List[Move]): Description
+        """
+        if all(isinstance(pmove, Move) for pmove in available_moves):
+            self.__available_moves = available_moves
 
 
     @property
@@ -275,6 +298,9 @@ class Piece(ABC):
 #==============================================================================
 class Pawn(Piece):
     """Summary
+
+    Attributes:
+        dir (TYPE): Description
     """
 
     def __init__(self,
