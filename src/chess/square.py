@@ -103,3 +103,66 @@ class Square:
             str: Description
         """
         return "(" + str(self.row_idx) + "," + str(self.col_idx) + ")"
+
+
+    #==========================================================================
+    #       SQUARE OCCUPANCY METHOD(s)
+    #==========================================================================
+    def is_empty(self) -> bool:
+        """Summary
+
+        Returns:
+            bool: Description
+        """
+        return self.occupant == None
+
+
+    def is_occupied(self) -> bool:
+        """Summary
+
+        Returns:
+            bool: Description
+        """
+        return self.occupant != None
+
+
+    def is_occupied_by_team_piece(self,
+                                  color : str) -> bool:
+        """Summary
+
+        Args:
+            color (str): Description
+
+        Returns:
+            bool: Description
+        """
+        return (self.is_occupied()
+                and self.occupant.piece_color == color)
+
+
+    def is_occupied_by_rival_piece(self,
+                                   color : str) -> bool:
+        """Summary
+
+        Args:
+            color (str): Description
+
+        Returns:
+            bool: Description
+        """
+        return (self.is_occupied()
+                and self.occupant.piece_color != color)
+
+
+    def is_empty_or_occupied_by_rival_piece(self,
+                                            color : str) -> bool:
+        """Summary
+
+        Args:
+            color (str): Description
+
+        Returns:
+            bool: Description
+        """
+        return (self.is_empty()
+                or self.is_occupied_by_rival_piece(color))
