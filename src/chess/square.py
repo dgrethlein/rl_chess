@@ -114,7 +114,7 @@ class Square:
         Returns:
             bool: Description
         """
-        return self.occupant == None
+        return self.occupant is None
 
 
     def is_occupied(self) -> bool:
@@ -123,7 +123,7 @@ class Square:
         Returns:
             bool: Description
         """
-        return self.occupant != None
+        return self.occupant is not None
 
 
     def is_occupied_by_team_piece(self,

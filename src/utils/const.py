@@ -68,3 +68,7 @@ PIECE_TYPES = ["pawn",
                "bishop",
                "queen",
                "king"]
+
+
+NUM_COLS = 8
+NUM_ROWS = 8

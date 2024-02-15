@@ -28,6 +28,7 @@ class Piece(ABC):
         past_moves (TYPE): Description
         piece_color (TYPE): Description
         piece_type (TYPE): Description
+        piece_value (TYPE): Description
         row_idx (TYPE): Description
     """
 
@@ -37,7 +38,8 @@ class Piece(ABC):
                  row_idx      : int,
                  past_moves   : List[Move] = None,
                  piece_color  : str = "white",
-                 piece_type   : str = "pawn"):
+                 piece_type   : str = "pawn",
+                 piece_value  : float = 1.0):
         """Summary
 
         Args:
@@ -46,20 +48,25 @@ class Piece(ABC):
             past_moves (List[Move], optional): Description
             piece_color (str, optional): Description
             piece_type (str, optional): Description
+            piece_value (float, optional): Description
         """
         self.__col_idx = None
         self.__row_idx = None
 
         self.__past_moves = []
+
         self.__piece_color = "white"
         self.__piece_type = "pawn"
+        self.__piece_value = 1.0
 
         self.col_idx = col_idx
         self.row_idx = row_idx
 
         self.past_moves = past_moves
+
         self.piece_color = piece_color
         self.piece_type = piece_type
+        self.piece_value = piece_value
 
 
     #==========================================================================
@@ -175,6 +182,32 @@ class Piece(ABC):
             self.__piece_type = piece_type
 
 
+    @property
+    def piece_value(self) -> float:
+        """Summary
+
+        Returns:
+            float: Description
+        """
+        return self.__piece_value
+
+
+    @piece_value.setter
+    def piece_value(self,
+                    piece_value : float):
+        """Summary
+
+        Args:
+            piece_value (float): Description
+        """
+        try:
+            if 0.0 < piece_value <= 10E+7:
+                self.piece_value = float(piece_value)
+
+        except (AttributeError, TypeError, ValueError):
+            pass
+
+
     #==========================================================================
     #       PIECE REPRESENTATION METHOD(s)
     #==========================================================================
@@ -236,6 +269,37 @@ class Piece(ABC):
         return text_path
 
 
+
+#==============================================================================
+#       PAWN CHESS PIECE CLASS
+#==============================================================================
+class Pawn(Piece):
+    """Summary
+    """
+
+    def __init__(self,
+                 col_idx     : int,
+                 row_idx     : int,
+                 past_moves  : List[Move],
+                 piece_color : str = "white"):
+        """Summary
+
+        Args:
+            col_idx (int): Description
+            row_idx (int): Description
+            past_moves (List[Move]): Description
+            piece_color (str, optional): Description
+        """
+        super().__init__(col_idx=col_idx,
+                         row_idx=row_idx,
+                         past_moves=past_moves,
+                         piece_color=piece_color,
+                         piece_type="pawn",
+                         piece_value=1.0)
+
+        self.dir = -1 if piece_color == "white" else 1
+
+
 #==============================================================================
 #       ROOK CHESS PIECE CLASS
 #==============================================================================
@@ -260,7 +324,8 @@ class Rook(Piece):
                          row_idx=row_idx,
                          past_moves=past_moves,
                          piece_color=piece_color,
-                         piece_type="rook")
+                         piece_type="rook",
+                         piece_value=5.0)
 
 
 #==============================================================================
@@ -287,7 +352,8 @@ class Knight(Piece):
                          row_idx=row_idx,
                          past_moves=past_moves,
                          piece_color=piece_color,
-                         piece_type="knight")
+                         piece_type="knight",
+                         piece_value=3.0)
 
 
 #==============================================================================
@@ -314,7 +380,8 @@ class Bishop(Piece):
                          row_idx=row_idx,
                          past_moves=past_moves,
                          piece_color=piece_color,
-                         piece_type="bishop")
+                         piece_type="bishop",
+                         piece_value=3.001)
 
 
 #==============================================================================
@@ -341,7 +408,8 @@ class Queen(Piece):
                          row_idx=row_idx,
                          past_moves=past_moves,
                          piece_color=piece_color,
-                         piece_type="queen")
+                         piece_type="queen",
+                         piece_value=9.0)
 
 
 #==============================================================================
@@ -368,7 +436,8 @@ class King(Piece):
                          row_idx=row_idx,
                          past_moves=past_moves,
                          piece_color=piece_color,
-                         piece_type="king")
+                         piece_type="king",
+                         piece_value=10000.0)
 
 #==============================================================================
 #       SCRIPT ENTRY POINT
