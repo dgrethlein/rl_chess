@@ -37,18 +37,44 @@ class Board:
     Attributes:
         board (TYPE): Description
         current_move_color (str): Description
+        moves_log (list): Description
 
-    Deleted Attributes:
-        grid (TYPE): Description
     """
 
-    def __init__(self):
+    def __init__(self,
+                 current_move_color : str = "white",
+                 moves_log          : List[Move] = None,
+                 pieces             : List[Piece] = None):
         """Summary
+
+        Args:
+            current_move_color (str, optional): Description
+            moves_log (List[Move], optional): Description
+            pieces (List[Piece], optional): Description
         """
         self._create_board()
-        self._add_pieces_to_board("black")
-        self._add_pieces_to_board("white")
-        self.current_move_color = "white"
+        self._create_moves_log()
+
+        if pieces is None:
+            self._add_pieces_to_board("black")
+            self._add_pieces_to_board("white")
+
+        else:
+            for piece in pieces:
+                prow_idx = piece.row_idx
+                pcol_idx = pieces.col_idx
+
+                self.board[prow_idx][pcol_idx] = Square(col_idx=pcol_idx,
+                                                        row_idx=prow_idx,
+                                                        occupant=piece)
+
+        if current_move_color not in ["black", "white"]:
+            self.current_move_color = current_move_color
+
+        if (moves_log is not None
+            and all(isinstance(moov, Move)
+                    for moov in moves_log)):
+            self.moves_log = moves_log
 
 
     #==========================================================================
@@ -175,6 +201,11 @@ class Board:
                       for row_idx in range(NUM_ROWS)]
 
 
+    def _create_moves_log(self):
+        """Summary
+        """
+        self.moves_log = []
+
     #==========================================================================
     #       CALCULATE PIECE MOVEMENT METHOD(s)
     #==========================================================================
@@ -216,7 +247,6 @@ class Board:
             self.board[move.before.row_idx][move.before.col_idx].occupant = None
             self.board[move.after.row_idx][move.after.col_idx].occupant = piece
 
-
         except (AttributeError, IndexError, KeyError, TypeError, ValueError):
             print("\n// [ERROR]  Couldn't move Piece on Board!\n")
             traceback.print_exc()
@@ -228,11 +258,39 @@ class Board:
 
         Returns:
             List[Move]: Description
+
+        Args:
+            piece (Piece): Description
         """
 
-        def calculate_available_pawn_moves():
+        def calculate_straight_line_moves() -> List[Move]:
             """Summary
             """
+
+        def calculate_diagonal_moves() -> List[Move]:
+            """Summary
+            """
+
+
+
+        def calculate_available_pawn_moves() -> List[Move]:
+            """Summary
+            """
+            try:
+                # Move forward two spaces only available first time Pawn moves.
+                if not piece.has_moved():
+
+                else:
+
+                # Checks for Pawn targets immediately in front and diagonal.
+
+
+                # Checks for an en passant Pawn target.
+
+            except (AttributeError, TypeError, ValueError):
+                print("\n// [ERROR]  Couldn't calculate available Pawn Move(s)!\n")
+                traceback.print_exc()
+
 
         def calculate_available_rook_moves():
             """Summary
@@ -253,6 +311,19 @@ class Board:
         def calculate_available_king_moves():
             """Summary
             """
+
+        if isinstance(piece, Pawn):
+
+        elif isinstance(piece, Rook):
+
+        elif isinstance(piece, Knight):
+
+        elif isinstance(piece, Bishop):
+
+        elif isinstance(piece, Queen):
+
+        elif isinstance(piece, King):
+
 
         #----------------------------------------------------------------------
         # Calculate all available moves public method implementation.

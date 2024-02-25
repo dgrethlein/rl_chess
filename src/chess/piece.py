@@ -260,6 +260,26 @@ class Piece(ABC):
 
 
     #==========================================================================
+    #       PIECE MOVE HISTORY METHOD(s)
+    #==========================================================================
+    def has_moved(self) -> bool:
+        """Summary
+
+        Returns:
+            bool: Description
+        """
+        moved = False
+
+        try:
+            moved = len(self.past_moves) > 0
+
+        except (AttributeError, TypeError, ValueError):
+            print("\n// [ERROR]  Couldn't determine if Piece has moved!\n")
+            traceback.print_exc()
+
+        return moved
+
+    #==========================================================================
     #       PIECE REPRESENTATION METHOD(s)
     #==========================================================================
     def get_piece_texture_path(self,
