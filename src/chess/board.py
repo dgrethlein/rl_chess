@@ -37,6 +37,7 @@ class Board:
         board (TYPE): Description
         current_move_color (str): Description
         moves_log (list): Description
+        pieces (list): Description
 
     """
 
@@ -238,7 +239,11 @@ class Board:
     #==========================================================================
     #       DETERMINE KING IN CHECK METHOD(s)
     #==========================================================================
-    def is_king_in_check(self) -> bool:
+
+    #==========================================================================
+    #       DETERMINE KING IN CHECK METHOD(s)
+    #==========================================================================
+    def is_current_king_in_check(self) -> bool:
         """Summary
 
         Returns:
@@ -249,11 +254,34 @@ class Board:
         try:
             other_color = "black" if self.current_move_color == "white" else "white"
 
-            # Examines the all Piece(s) from the other team.
-            for row in self.board:
-                for sqr in row:
-                    if (isinstance(sqr.occupant, Piece)
-                        and sqr.occupant.piece_color == other_color):
+            current_king = None
+            other_pieces = []
+            for piece in self.pieces:
+                if piece.piece_color == other_color:
+                    other_pieces += [piece]
+
+                elif isinstance(piece, King):
+                    current_king = piece
+
+            current_king_square = Square(col_idx=current_king.col_idx,
+                                         row_idx=current_king.row_idx,
+                                         occupant=current_king)
+
+            # Determines whether any of the other team's Piece(s) can
+            # move to the space occupied by the current turn team's King.
+            for other_piece in other_pieces:
+                other_piece_square = Square(col_idx=other_piece.col_idx,
+                                            row_idx=other_piece.row_idx,
+                                            occupant=other_piece)
+
+                other_piece_check_move = Move(before=other_piece_square,
+                                              after=current_king_square)
+
+                # If move is possible, indicate the current team's King is in check.
+                if self.is_move_available(piece=other_piece,
+                                          move=other_piece_check_move):
+                    in_check = True
+                    break
 
         except (AttributeError, IndexError, KeyError, TypeError, ValueError):
             print("\n// [ERROR]  Couldn't determine if King is in check!\n")
@@ -322,131 +350,103 @@ class Board:
 
 
     def compute_piece_available_moves(self,
-                                      piece : Piece):
+                                      piece : Piece) -> List[Move]:
+        """Summary
+
+        Args:
+            piece (Piece): Description
+        """
+
+        def compute_pawn_available_moves(piece : Piece) -> List[Move]:
+            """Summary
+
+            Args:
+                piece (Piece): Description
+            """
+            pawn_moves = []
+
+            try:
+                pawn_row = piece.row_idx
+                pawn_col = piece.col_idx
+
+                # Determine whether Pawn can move forward one Square.
+                if self.board[pawn_row + piece.dir][pawn_col].is_empty():
+                    pawn_moves += [Move(before=self.board[pawn_row][pawn_col],
+                                        after=self.board[pawn_row + piece.dir][pawn_col])]
+
+                    # Determine whether Pawn can move forward two Square(s).
+                    if (not piece.has_moved()
+                        and self.board[pawn_row + 2 * piece.dir][pawn_col].is_empty()):
+
+                        pawn_moves += [Move(before=self.board[pawn_row][pawn_col],
+                                            after=self.board[pawn_row + 2 * piece.dir][pawn_col])]
+
+                # Determines whether Pawn can move diagonally forward one Square (capture a Piece).
+                diag_cols = list(
+                                filter(
+                                    lambda col_idx:
+                                        0 <= col_idx <= 7,
+                                        [pawn_col - 1, pawn_col + 1]
+                                    )
+                                )
+                for dcol in diag_cols:
+                    dsqr = self.board[pawn_row + piece.dir][dcol]
+
+                    # Checks for standard diagonal capture (requires enemy piece).
+                    if dsqr.is_occupied_by_rival_piece(color=pawn.piece_color):
+                        pawn_moves += [Move(before=self.board[pawn_row][pawn_col],
+                                            after=dsqr)]
+
+                    # Checks for en passant capture. Looks for a Pawn in the square horizontally
+                    # next to the given Pawn that has only moved once, two squares, and that Move
+                    # was the last Move recorded by the Board.
+                    elif (dsqr.is_empty()
+                          and self.board[pawn_row][dcol].occupant.piece_color != piece.piece_color
+                          and isinstance(self.board[pawn_row][dcol].occupant, Pawn)
+                          and len(self.board[pawn_row][dcol].occupant.past_moves) == 1):
+
+                        last_move = self.past_moves[-1]
+                        last_opawn_move = self.board[pawn_row][dcol].occupant.past_moves[-1]
+
+                        last_del_row = abs(last_opawn_move.before.row_idx
+                                           - last_opawn_move.after.row_idx)
+
+                        if last_move == last_opawn_move and last_del_row == 2:
+
+                            pawn_moves += [Move(before=self.board[pawn_row][pawn_col],
+                                                after=dsqr)]
+
+            except (AttributeError, IndexError, KeyError, TypeError, ValueError):
+                print("\n// [ERROR]  Coudln't compute the available Move(s) for a Pawn. ")
+
+            return pawn_moves
+
+
+        available_moves = []
 
         try:
             if isinstance(piece, Pawn):
-                compute_pawn_available_moves(piece)
+                available_moves = compute_pawn_available_moves(piece)
 
             elif isinstance(piece, Rook):
-                compute_rook_available_moves(piece)
+                available_moves = compute_rook_available_moves(piece)
 
             elif isinstance(piece, Knight):
-                compute_knight_available_moves(piece)
+                available_moves = compute_knight_available_moves(piece)
 
             elif isinstance(piece, Bishop):
-                compute_bishop_available_moves(piece)
+                available_moves = compute_bishop_available_moves(piece)
 
             elif isinstance(piece, Queen):
-                compute_queen_available_moves(piece)
+                available_moves = compute_queen_available_moves(piece)
 
             elif isinstance(piece, King):
-                compute_king_available_moves(piece)
+                available_moves = compute_king_available_moves(piece)
 
         except (AttributeError, TypeError, ValueError):
             print("\n// [ERROR]  Couldn't compute the Piece's available moves!\n")
             traceback.print_exc()
 
-
-    # def calculate_available_moves(self,
-    #                               piece : Piece) -> List[Move]:
-    #     """Summary
-
-    #     Returns:
-    #         List[Move]: Description
-
-    #     Args:
-    #         piece (Piece): Description
-    #     """
-
-    #     def calculate_straight_line_moves(indices : List[Tuple[int,int]]) -> List[Move]:
-    #         """Summary
-    #         """
-
-    #     def calculate_diagonal_moves() -> List[Move]:
-    #         """Summary
-    #         """
+        return available_moves
 
 
-
-    #     def calculate_available_pawn_moves() -> List[Move]:
-    #         """Summary
-    #         """
-    #         try:
-    #             # Move forward two spaces only available first time Pawn moves.
-    #             if not piece.has_moved():
-
-    #             else:
-
-    #             # Checks for Pawn targets immediately in front and diagonal.
-
-
-    #             # Checks for an en passant Pawn target.
-
-    #         except (AttributeError, TypeError, ValueError):
-    #             print("\n// [ERROR]  Couldn't calculate available Pawn Move(s)!\n")
-    #             traceback.print_exc()
-
-
-    #     def calculate_available_rook_moves():
-    #         """Summary
-    #         """
-
-    #     def calculate_available_knight_moves():
-    #         """Summary
-    #         """
-
-    #     def calculate_available_bishop_moves():
-    #         """Summary
-    #         """
-
-    #     def calculate_available_queen_moves():
-    #         """Summary
-    #         """
-
-    #     def calculate_available_king_moves():
-    #         """Summary
-    #         """
-
-    #     if isinstance(piece, Pawn):
-
-    #     elif isinstance(piece, Rook):
-
-    #     elif isinstance(piece, Knight):
-
-    #     elif isinstance(piece, Bishop):
-
-    #     elif isinstance(piece, Queen):
-
-    #     elif isinstance(piece, King):
-
-
-    #     #----------------------------------------------------------------------
-    #     # Calculate all available moves public method implementation.
-    #     #----------------------------------------------------------------------
-    #     all_moves = []
-
-    #     try:
-    #         if isinstance(piece, Pawn):
-    #             calculate_available_pawn_moves()
-
-    #         elif isinstance(piece, Rook):
-    #             calculate_available_rook_moves()
-
-    #         elif isinstance(piece, Knight):
-    #             calculate_available_knight_moves()
-
-    #         elif isinstance(piece, Bishop):
-    #             calculate_available_bishop_moves()
-
-    #         elif isinstance(piece, Queen):
-    #             calculate_available_queen_moves()
-
-    #         elif isinstance(piece, King):
-    #             calculate_available_king_moves()
-
-    #     except (AttributeError, IndexError, KeyError, TypeError, ValueError):
-    #         print("\n// [ERROR]  Couldn't calculate all available Move(s)!\n")
-    #         traceback.print_exc()
-
-    #     return all_moves

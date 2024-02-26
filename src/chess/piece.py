@@ -279,6 +279,7 @@ class Piece(ABC):
 
         return moved
 
+
     #==========================================================================
     #       PIECE REPRESENTATION METHOD(s)
     #==========================================================================
@@ -320,6 +321,7 @@ class Pawn(Piece):
     """Summary
 
     Attributes:
+        did_en_passant (bool): Description
         dir (TYPE): Description
     """
 
@@ -336,6 +338,7 @@ class Pawn(Piece):
             row_idx (int): Description
             past_moves (List[Move]): Description
             piece_color (str, optional): Description
+            did_en_passant (bool, optional): Description
         """
         super().__init__(col_idx=col_idx,
                          row_idx=row_idx,
@@ -349,6 +352,7 @@ class Pawn(Piece):
         self.did_en_passant = False
         if isinstance(did_en_passant, bool):
             self.did_en_passant = did_en_passant
+
 
 
 #==============================================================================
