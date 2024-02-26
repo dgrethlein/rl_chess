@@ -324,10 +324,11 @@ class Pawn(Piece):
     """
 
     def __init__(self,
-                 col_idx     : int,
-                 row_idx     : int,
-                 past_moves  : List[Move],
-                 piece_color : str = "white"):
+                 col_idx        : int,
+                 row_idx        : int,
+                 past_moves     : List[Move],
+                 piece_color    : str = "white",
+                 did_en_passant : bool = False):
         """Summary
 
         Args:
@@ -344,6 +345,10 @@ class Pawn(Piece):
                          piece_value=1.0)
 
         self.dir = -1 if piece_color == "white" else 1
+
+        self.did_en_passant = False
+        if isinstance(did_en_passant, bool):
+            self.did_en_passant = did_en_passant
 
 
 #==============================================================================
