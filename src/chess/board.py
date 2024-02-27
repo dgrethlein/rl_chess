@@ -431,6 +431,12 @@ class Board:
 
         def compute_rook_available_moves(piece : Piece) -> List[Move]:
             """Summary
+
+            Args:
+                piece (Piece): Description
+
+            Returns:
+                List[Move]: Description
             """
             rook_moves = []
 
@@ -516,17 +522,39 @@ class Board:
 
 
         def compute_knight_available_moves(piece : Piece) -> List[Move]:
+            """Summary
 
+            Args:
+                piece (Piece): Description
+
+            Returns:
+                List[Move]: Description
+            """
             knight_moves = []
 
             try:
                 krow = piece.row_idx
                 kcol = piece.col_idx
-                ksqr = self.board[piece.row_idx][piece.col_idx]
+                ksqr = self.board[krow][kcol]
 
-                knight_moves += [Move(before=,
-                                      after=)]
+                # Anticipated geometry of movement for a Knight (clockwise).
+                relative_moves = [(1, 2),
+                                  (2, 1),
+                                  (2, -1),
+                                  (1, -2),
+                                  (-1, -2),
+                                  (-2, -1),
+                                  (-2, 1),
+                                  (-1, 2)]
 
+                for (rel_row, rel_col) in relative_moves:
+
+                    # Only include as available Move if target is on the Board.
+                    if (0 <= krow + rel_row <= 7
+                        and 0 <= kcol + rel_col <= 7):
+
+                        knight_moves += [Move(before=ksqr,
+                                              after=self.board[krow + rel_row][kcol + rel_col])]
 
             except (AttributeError, IndexError, KeyError, TypeError, ValueError):
                 print("\n// [ERROR]  Couldn't compute the avilable Move(s) for a Knight!\n")
@@ -536,7 +564,14 @@ class Board:
 
 
         def compute_bishop_available_moves(piece : Piece) -> List[Move]:
+            """Summary
 
+            Args:
+                piece (Piece): Description
+
+            Returns:
+                List[Move]: Description
+            """
             bishop_moves = []
 
 
@@ -545,7 +580,14 @@ class Board:
 
 
         def compute_queen_available_moves(piece : Piece) -> List[Move]:
+            """Summary
 
+            Args:
+                piece (Piece): Description
+
+            Returns:
+                List[Move]: Description
+            """
             queen_moves = []
 
 
@@ -553,7 +595,14 @@ class Board:
 
 
         def compute_king_available_moves(piece : Piece) -> List[Move]:
+            """Summary
 
+            Args:
+                piece (Piece): Description
+
+            Returns:
+                List[Move]: Description
+            """
             king_moves = []
 
 
