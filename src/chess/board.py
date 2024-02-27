@@ -355,6 +355,9 @@ class Board:
 
         Args:
             piece (Piece): Description
+
+        Returns:
+            List[Move]: Description
         """
 
         def compute_pawn_available_moves(piece : Piece) -> List[Move]:
@@ -362,6 +365,9 @@ class Board:
 
             Args:
                 piece (Piece): Description
+
+            Returns:
+                List[Move]: Description
             """
             pawn_moves = []
 
@@ -417,9 +423,141 @@ class Board:
                                                 after=dsqr)]
 
             except (AttributeError, IndexError, KeyError, TypeError, ValueError):
-                print("\n// [ERROR]  Coudln't compute the available Move(s) for a Pawn. ")
+                print("\n// [ERROR]  Couldn't compute the available Move(s) for a Pawn!\n")
+                traceback.print_exc()
 
             return pawn_moves
+
+
+        def compute_rook_available_moves(piece : Piece) -> List[Move]:
+            """Summary
+            """
+            rook_moves = []
+
+            try:
+                # Grabs the Board coordinates of the Rook.
+                rcol = piece.col_idx
+                rrow = piece.row_idx
+
+                # Examines potential moves in 4 directions.
+                dir_moves = {"up"    : {"open"  : True,
+                                        "moves" : []},
+                             "down"  : {"open"  : True,
+                                        "moves" : []},
+                             "left"  : {"open"  : True,
+                                        "moves" : []},
+                             "right" : {"open"  : True,
+                                        "moves" : []}}
+
+                # Expands outwards in 4 directions from the Rook looking for Move(s).
+                for radius in range(1,8):
+
+                    # "Up" Move(s)
+                    if 0 <= rrow - radius <= 7 and dir_moves["up"]["open"]:
+                        if self.board[rrow - radius][rcol].is_empty():
+                            dir_moves["up"]["moves"] += [Move(self.board[rrow][rcol],
+                                                              self.board[rrow - radius][rcol])]
+
+                        elif self.board[rrow - radius][rcol].is_occupied_by_rival_piece():
+                            dir_moves["up"]["open"] = False
+                            dir_moves["up"]["moves"] += [Move(self.board[rrow][rcol],
+                                                              self.board[rrow - radius][rcol])]
+                    else:
+                        dir_moves["up"]["open"] = False
+
+                    # "Down" Move(s)
+                    if 0 <= rrow + radius <= 7 and dir_moves["down"]["open"]:
+                        if self.board[rrow + radius][rcol].is_empty():
+                            dir_moves["down"]["moves"] += [Move(self.board[rrow][rcol],
+                                                                self.board[rrow + radius][rcol])]
+
+                        elif self.board[rrow + radius][rcol].is_occupied_by_rival_piece():
+                            dir_moves["down"]["open"] = False
+                            dir_moves["down"]["moves"] += [Move(self.board[rrow][rcol],
+                                                                self.board[rrow + radius][rcol])]
+                    else:
+                        dir_moves["down"]["open"] = False
+
+                    # "Left" Move(s)
+                    if 0 <= rcol - radius <= 7 and dir_moves["left"]["open"]:
+                        if self.board[rrow][rcol - radius].is_empty():
+                            dir_moves["left"]["moves"] += [Move(self.board[rrow][rcol],
+                                                                self.board[rrow][rcol - radius])]
+
+                        elif self.board[rrow][rcol - radius].is_occupied_by_rival_piece():
+                            dir_moves["left"]["open"] = False
+                            dir_moves["left"]["moves"] += [Move(self.board[rrow][rcol],
+                                                                self.board[rrow][rcol - radius])]
+                    else:
+                        dir_moves["left"]["open"] = False
+
+
+                    # "Right" Move(s)
+                    if 0 <= rcol + radius <= 7 and dir_moves["right"]["open"]:
+                        if self.board[rrow][rcol + radius].is_empty():
+                            dir_moves["right"]["moves"] += [Move(self.board[rrow][rcol],
+                                                                 self.board[rrow][rcol + radius])]
+
+                        elif self.board[rrow][rcol + radius].is_occupied_by_rival_piece():
+                            dir_moves["right"]["open"] = False
+                            dir_moves["right"]["moves"] += [Move(self.board[rrow][rcol],
+                                                                 self.board[rrow][rcol + radius])]
+
+                # Concatenate all moves for the Rook together in a single list.
+                for _, dir_dict in dir_moves.items():
+                    rook_moves += dir_dict["moves"]
+
+            except (AttributeError, IndexError, KeyError, TypeError, ValueError):
+                print("\n// [ERROR]  Couldn't compute the available Move(s) for a Rook!\n")
+                traceback.print_exc()
+
+            return rook_moves
+
+
+
+        def compute_knight_available_moves(piece : Piece) -> List[Move]:
+
+            knight_moves = []
+
+            try:
+                krow = piece.row_idx
+                kcol = piece.col_idx
+                ksqr = self.board[piece.row_idx][piece.col_idx]
+
+                knight_moves += [Move(before=,
+                                      after=)]
+
+
+            except (AttributeError, IndexError, KeyError, TypeError, ValueError):
+                print("\n// [ERROR]  Couldn't compute the avilable Move(s) for a Knight!\n")
+                traceback.print_exc()
+
+            return knight_moves
+
+
+        def compute_bishop_available_moves(piece : Piece) -> List[Move]:
+
+            bishop_moves = []
+
+
+            return bishop_moves
+
+
+
+        def compute_queen_available_moves(piece : Piece) -> List[Move]:
+
+            queen_moves = []
+
+
+            return queen_moves
+
+
+        def compute_king_available_moves(piece : Piece) -> List[Move]:
+
+            king_moves = []
+
+
+            return king_moves
 
 
         available_moves = []
