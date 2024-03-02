@@ -360,6 +360,9 @@ class Board:
             List[Move]: Description
         """
 
+        # pylint: disable=too-many-branches,too-many-statements
+        # Nested functions here, leave our branches and statements alone!
+
         def compute_pawn_available_moves(piece : Piece) -> List[Move]:
             """Summary
 
@@ -399,7 +402,7 @@ class Board:
                     dsqr = self.board[pawn_row + piece.dir][dcol]
 
                     # Checks for standard diagonal capture (requires enemy piece).
-                    if dsqr.is_occupied_by_rival_piece(color=pawn.piece_color):
+                    if dsqr.is_occupied_by_rival_piece(color=piece.piece_color):
                         pawn_moves += [Move(before=self.board[pawn_row][pawn_col],
                                             after=dsqr)]
 
@@ -553,8 +556,12 @@ class Board:
                     if (0 <= krow + rel_row <= 7
                         and 0 <= kcol + rel_col <= 7):
 
-                        knight_moves += [Move(before=ksqr,
-                                              after=self.board[krow + rel_row][kcol + rel_col])]
+                        target_sqr = self.board[krow + rel_row][kcol + rel_col]
+
+                        if target_sqr.is_empty_or_occupied_by_rival_piece(piece.piece_color):
+
+                            knight_moves += [Move(before=ksqr,
+                                                  after=target_sqr)]
 
             except (AttributeError, IndexError, KeyError, TypeError, ValueError):
                 print("\n// [ERROR]  Couldn't compute the avilable Move(s) for a Knight!\n")
@@ -635,5 +642,3 @@ class Board:
             traceback.print_exc()
 
         return available_moves
-
-

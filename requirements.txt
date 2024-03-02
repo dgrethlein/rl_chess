@@ -1,5 +1,6 @@
 #requirements.txt
 
+pyan3
 flask
 numpy
 pandas

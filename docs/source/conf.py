@@ -33,7 +33,8 @@ release = '0.0.1'
 extensions = ['sphinx.ext.napoleon',
               'sphinx.ext.autodoc',
               'sphinx.ext.intersphinx',
-              'sphinx.ext.viewcode']
+              'sphinx.ext.viewcode',
+              'sphinx.pyan']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -58,3 +59,21 @@ html_theme_options = {
     "logo_only" : True,
     "display_version" : True
 }
+
+# -- Extension configuration -------------------------------------------------
+
+# Napoleon settings
+napoleon_google_docstring = True
+napoleon_numpy_docstring = True
+napoleon_include_init_with_doc = True
+napoleon_include_private_with_doc = True
+napoleon_include_special_with_doc = True
+
+
+# sphinx-rtd-dark-mode settings
+# default_dark_mode = True
+# default_dark_mode = False
+
+
+# pyan3 settings
+graphviz_output_format = "svg"
