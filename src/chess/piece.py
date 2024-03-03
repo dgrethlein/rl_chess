@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """Summary
+
+Attributes:
+    PIECE_SHORT_STRS (TYPE): Description
 """
 
 
@@ -243,7 +246,18 @@ class Piece(ABC):
     #       PIECE REPRESENTATION METHOD(s)
     #==========================================================================
     def to_short_str(self) -> str:
+        """Summary
+
+        Returns:
+            str: Description
+        """
         return PIECE_SHORT_STRS[self.piece_type]
+
+
+    @abstractmethod
+    def to_unicode_char(self) -> str:
+        """Summary
+        """
 
 
     # def to_short_str(self,
@@ -366,6 +380,34 @@ class Pawn(Piece):
             self.did_en_passant = did_en_passant
 
 
+    #==========================================================================
+    #       PIECE REPRESENTATION METHOD(s)
+    #==========================================================================
+    def to_unicode_str(self) -> str:
+        """Summary
+
+        Returns:
+            str: Description
+        """
+        unicode_str = None
+
+        try:
+            # white pawn unicode (♙)
+            if self.piece_color == "white":
+                unicode_str = "\u2659"
+
+            # black pawn unicode (♟)
+            else:
+                unicode_str = "\u265f"
+
+        except (AttributeError, TypeError, ValueError):
+            print(f"\n// [ERROR]  Couldn't convert the {self.__class__.__name__} "
+                  " to a unicode string!\n")
+            traceback.print_exc
+
+        return unicode_str
+
+
 
 #==============================================================================
 #       ROOK CHESS PIECE CLASS
@@ -393,6 +435,34 @@ class Rook(Piece):
                          piece_color=piece_color,
                          piece_type="rook",
                          piece_value=5.0)
+
+
+    #==========================================================================
+    #       PIECE REPRESENTATION METHOD(s)
+    #==========================================================================
+    def to_unicode_str(self) -> str:
+        """Summary
+
+        Returns:
+            str: Description
+        """
+        unicode_str = None
+
+        try:
+            # white rook unicode (♖)
+            if self.piece_color == "white":
+                unicode_str = "\u2656"
+
+            # black rook unicode (♜)
+            else:
+                unicode_str = "\u265c"
+
+        except (AttributeError, TypeError, ValueError):
+            print(f"\n// [ERROR]  Couldn't convert the {self.__class__.__name__} "
+                  " to a unicode string!\n")
+            traceback.print_exc
+
+        return unicode_str
 
 
 #==============================================================================
@@ -423,6 +493,34 @@ class Knight(Piece):
                          piece_value=3.0)
 
 
+    #==========================================================================
+    #       PIECE REPRESENTATION METHOD(s)
+    #==========================================================================
+    def to_unicode_str(self) -> str:
+        """Summary
+
+        Returns:
+            str: Description
+        """
+        unicode_str = None
+
+        try:
+            # white knight unicode (♘)
+            if self.piece_color == "white":
+                unicode_str = "\u2658"
+
+            # black knight unicode (♞)
+            else:
+                unicode_str = "\u265e"
+
+        except (AttributeError, TypeError, ValueError):
+            print(f"\n// [ERROR]  Couldn't convert the {self.__class__.__name__} "
+                  " to a unicode string!\n")
+            traceback.print_exc
+
+        return unicode_str
+
+
 #==============================================================================
 #       BISHOP CHESS PIECE CLASS
 #==============================================================================
@@ -449,6 +547,34 @@ class Bishop(Piece):
                          piece_color=piece_color,
                          piece_type="bishop",
                          piece_value=3.001)
+
+
+    #==========================================================================
+    #       PIECE REPRESENTATION METHOD(s)
+    #==========================================================================
+    def to_unicode_str(self) -> str:
+        """Summary
+
+        Returns:
+            str: Description
+        """
+        unicode_str = None
+
+        try:
+            # white bishop unicode (♗)
+            if self.piece_color == "white":
+                unicode_str = "\u2657"
+
+            # black bishop unicode (♝)
+            else:
+                unicode_str = "\u265d"
+
+        except (AttributeError, TypeError, ValueError):
+            print(f"\n// [ERROR]  Couldn't convert the {self.__class__.__name__} "
+                  " to a unicode string!\n")
+            traceback.print_exc
+
+        return unicode_str
 
 
 #==============================================================================
