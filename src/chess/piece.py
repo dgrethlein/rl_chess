@@ -17,6 +17,14 @@ from ..utils import PIECE_TYPES
 from ..utils import PLAYER_COLORS
 
 
+PIECE_SHORT_STRS = {"pawn"   : "p",
+                    "rook"   : "r",
+                    "knight" : "n",
+                    "bishop" : "b",
+                    "queen"  : "q",
+                    "king"   : "k"}
+
+
 #==============================================================================
 #       CHESS PIECE ABSTRACT BASE CLASS
 #==============================================================================
@@ -234,29 +242,33 @@ class Piece(ABC):
     #==========================================================================
     #       PIECE REPRESENTATION METHOD(s)
     #==========================================================================
-    def to_short_str(self,
-                     include_color : bool = False) -> str:
-        """Summary
+    def to_short_str(self) -> str:
+        return PIECE_SHORT_STRS[self.piece_type]
 
-        Returns:
-            str: Description
 
-        Args:
-            include_color (bool, optional): Description
-        """
-        short_str = None
+    # def to_short_str(self,
+    #                  include_color : bool = False) -> str:
+    #     """Summary
 
-        try:
-            short_str = self.piece_type[0].upper()
+    #     Returns:
+    #         str: Description
 
-            if include_color:
-                short_str = self.piece_color[0].upper() + short_str
+    #     Args:
+    #         include_color (bool, optional): Description
+    #     """
+    #     short_str = None
 
-        except (AttributeError, IndexError, TypeError, ValueError):
-            print("\n// [ERROR]  Couldn't represent the Chess Piece as a short str!\n")
-            traceback.print_exc()
+    #     try:
+    #         short_str = self.piece_type[0].upper()
 
-        return short_str
+    #         if include_color:
+    #             short_str = self.piece_color[0].upper() + short_str
+
+    #     except (AttributeError, IndexError, TypeError, ValueError):
+    #         print("\n// [ERROR]  Couldn't represent the Chess Piece as a short str!\n")
+    #         traceback.print_exc()
+
+    #     return short_str
 
 
     #==========================================================================
