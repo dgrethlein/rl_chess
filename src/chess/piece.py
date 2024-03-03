@@ -605,6 +605,34 @@ class Queen(Piece):
                          piece_value=9.0)
 
 
+    #==========================================================================
+    #       PIECE REPRESENTATION METHOD(s)
+    #==========================================================================
+    def to_unicode_str(self) -> str:
+        """Summary
+
+        Returns:
+            str: Description
+        """
+        unicode_str = None
+
+        try:
+            # white queen unicode (♕)
+            if self.piece_color == "white":
+                unicode_str = "\u2655"
+
+            # black queen unicode (♛)
+            else:
+                unicode_str = "\u265b"
+
+        except (AttributeError, TypeError, ValueError):
+            print(f"\n// [ERROR]  Couldn't convert the {self.__class__.__name__} "
+                  " to a unicode string!\n")
+            traceback.print_exc
+
+        return unicode_str
+
+
 #==============================================================================
 #       KING CHESS PIECE CLASS
 #==============================================================================
@@ -631,6 +659,35 @@ class King(Piece):
                          piece_color=piece_color,
                          piece_type="king",
                          piece_value=10000.0)
+
+
+    #==========================================================================
+    #       PIECE REPRESENTATION METHOD(s)
+    #==========================================================================
+    def to_unicode_str(self) -> str:
+        """Summary
+
+        Returns:
+            str: Description
+        """
+        unicode_str = None
+
+        try:
+            # white king unicode (♔)
+            if self.piece_color == "white":
+                unicode_str = "\u2654"
+
+            # black king unicode (♚)
+            else:
+                unicode_str = "\u265a"
+
+        except (AttributeError, TypeError, ValueError):
+            print(f"\n// [ERROR]  Couldn't convert the {self.__class__.__name__} "
+                  " to a unicode string!\n")
+            traceback.print_exc
+
+        return unicode_str
+
 
 #==============================================================================
 #       SCRIPT ENTRY POINT
