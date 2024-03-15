@@ -254,6 +254,7 @@ class Piece(ABC):
         return PIECE_SHORT_STRS[self.piece_type]
 
 
+    @abstractmethod
     def to_unicode_char(self) -> str:
         """Summary
         """
@@ -357,7 +358,7 @@ class Pawn(Piece):
     #==========================================================================
     #       PIECE REPRESENTATION METHOD(s)
     #==========================================================================
-    def to_unicode_str(self) -> str:
+    def to_unicode_char(self) -> str:
         """Summary
 
         Returns:
@@ -414,7 +415,7 @@ class Rook(Piece):
     #==========================================================================
     #       PIECE REPRESENTATION METHOD(s)
     #==========================================================================
-    def to_unicode_str(self) -> str:
+    def to_unicode_char(self) -> str:
         """Summary
 
         Returns:
@@ -470,7 +471,7 @@ class Knight(Piece):
     #==========================================================================
     #       PIECE REPRESENTATION METHOD(s)
     #==========================================================================
-    def to_unicode_str(self) -> str:
+    def to_unicode_char(self) -> str:
         """Summary
 
         Returns:
@@ -526,7 +527,7 @@ class Bishop(Piece):
     #==========================================================================
     #       PIECE REPRESENTATION METHOD(s)
     #==========================================================================
-    def to_unicode_str(self) -> str:
+    def to_unicode_char(self) -> str:
         """Summary
 
         Returns:
@@ -582,7 +583,7 @@ class Queen(Piece):
     #==========================================================================
     #       PIECE REPRESENTATION METHOD(s)
     #==========================================================================
-    def to_unicode_str(self) -> str:
+    def to_unicode_char(self) -> str:
         """Summary
 
         Returns:
@@ -638,7 +639,7 @@ class King(Piece):
     #==========================================================================
     #       PIECE REPRESENTATION METHOD(s)
     #==========================================================================
-    def to_unicode_str(self) -> str:
+    def to_unicode_char(self) -> str:
         """Summary
 
         Returns:
