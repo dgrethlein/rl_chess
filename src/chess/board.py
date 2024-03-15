@@ -581,6 +581,57 @@ class Board:
             """
             bishop_moves = []
 
+            try:
+                dir_moves = {"upper_right" : {"moves" : [],
+                                              "open" : True},
+                             "lower_right" : {"moves" : [],
+                                              "open" : True},
+                             "lower_left"  : {"moves" : [],
+                                              "open" : True},
+                             "upper_left"  : {"moves" : [],
+                                              "open" : True}}
+
+                piece_sqr = self.board[piece.row_idx][piece.col_idx]
+
+                for radius in range(1,8):
+
+                    # Looks for Move(s) to the upper right diagonal of the Bishop.
+                    if (0 <= piece.row_idx + radius <= 7
+                        and 0 <= piece.col_idx + radius <= 7):
+                        ur_sqr =self.board[piece.row_idx + radius][piece.col_idx + radius]
+
+                        if ur_sqr.is_empty_or_occupied_by_rival_piece(piece.piece_color):
+                            dir_moves["upper_right"]["moves"].append(Move(piece_sqr,
+                                                                          ur_sqr))
+                            if ur_sqr.is_occupied_by_rival_piece():
+                                dir_moves["upper_right"]["open"] = False
+
+
+                    # Looks for Move(s) to the lower right diagonal of the Bishop.
+                    if (0 <= piece.row_idx - radius <= 7
+                        and 0 <= piece.col_idx + radius <= 7):
+                        lr_sqr =self.board[piece.row_idx - radius][piece.col_idx + radius]
+
+                        if lr_sqr.is_empty_or_occupied_by_rival_piece(piece.piece_color):
+                            dir_moves["upper_right"]["moves"].append(Move(piece_sqr,
+                                                                          lr_sqr))
+                            if lr_sqr.is_occupied_by_rival_piece():
+                                dir_moves["upper_right"]["open"] = False
+
+                    # Looks for Move(s) to the lower left diagonal of the Bishop.
+                    if (0 <= piece.row_idx - radius <= 7
+                        and 0 <= piece.col_idx - radius <= 7):
+                        ll_sqr =self.board[piece.row_idx - radius][piece.col_idx - radius]
+
+                        if ll_sqr.is_empty_or_occupied_by_rival_piece(piece.piece_color):
+                            dir_moves["upper_right"]["moves"].append(Move(piece_sqr,
+                                                                          ll_sqr))
+                            if ll_sqr.is_occupied_by_rival_piece():
+                                dir_moves["upper_right"]["open"] = False
+
+            except (AttributeError, IndexError, KeyError, TypeError, ValueError):
+                print("\n// [ERROR]  Couldn't compute the Move(s) for a Bishop!\n")
+                traceback.print_exc()
 
             return bishop_moves
 

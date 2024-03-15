@@ -254,35 +254,9 @@ class Piece(ABC):
         return PIECE_SHORT_STRS[self.piece_type]
 
 
-    @abstractmethod
     def to_unicode_char(self) -> str:
         """Summary
         """
-
-
-    # def to_short_str(self,
-    #                  include_color : bool = False) -> str:
-    #     """Summary
-
-    #     Returns:
-    #         str: Description
-
-    #     Args:
-    #         include_color (bool, optional): Description
-    #     """
-    #     short_str = None
-
-    #     try:
-    #         short_str = self.piece_type[0].upper()
-
-    #         if include_color:
-    #             short_str = self.piece_color[0].upper() + short_str
-
-    #     except (AttributeError, IndexError, TypeError, ValueError):
-    #         print("\n// [ERROR]  Couldn't represent the Chess Piece as a short str!\n")
-    #         traceback.print_exc()
-
-    #     return short_str
 
 
     #==========================================================================
@@ -403,7 +377,7 @@ class Pawn(Piece):
         except (AttributeError, TypeError, ValueError):
             print(f"\n// [ERROR]  Couldn't convert the {self.__class__.__name__} "
                   " to a unicode string!\n")
-            traceback.print_exc
+            traceback.print_exc()
 
         return unicode_str
 
@@ -460,7 +434,7 @@ class Rook(Piece):
         except (AttributeError, TypeError, ValueError):
             print(f"\n// [ERROR]  Couldn't convert the {self.__class__.__name__} "
                   " to a unicode string!\n")
-            traceback.print_exc
+            traceback.print_exc()
 
         return unicode_str
 
@@ -516,7 +490,7 @@ class Knight(Piece):
         except (AttributeError, TypeError, ValueError):
             print(f"\n// [ERROR]  Couldn't convert the {self.__class__.__name__} "
                   " to a unicode string!\n")
-            traceback.print_exc
+            traceback.print_exc()
 
         return unicode_str
 
@@ -572,7 +546,7 @@ class Bishop(Piece):
         except (AttributeError, TypeError, ValueError):
             print(f"\n// [ERROR]  Couldn't convert the {self.__class__.__name__} "
                   " to a unicode string!\n")
-            traceback.print_exc
+            traceback.print_exc()
 
         return unicode_str
 
@@ -628,7 +602,7 @@ class Queen(Piece):
         except (AttributeError, TypeError, ValueError):
             print(f"\n// [ERROR]  Couldn't convert the {self.__class__.__name__} "
                   " to a unicode string!\n")
-            traceback.print_exc
+            traceback.print_exc()
 
         return unicode_str
 
@@ -684,7 +658,7 @@ class King(Piece):
         except (AttributeError, TypeError, ValueError):
             print(f"\n// [ERROR]  Couldn't convert the {self.__class__.__name__} "
                   " to a unicode string!\n")
-            traceback.print_exc
+            traceback.print_exc()
 
         return unicode_str
 
